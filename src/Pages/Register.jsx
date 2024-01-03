@@ -7,8 +7,14 @@ import { AuthContext } from "../Provider/AuthProvider";
 const Register = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-    const {createUser} = useContext(AuthContext);
+  const [accept, setAccept] = useState(false);
+    const {createUser, updateUser, verifyEmail} = useContext(AuthContext);
 
+    const handleAccepted = event =>{
+
+      setAccept(event.target.checked)
+
+    }
 
     const handleSubmit = event =>{
         event.preventDefault();
@@ -17,7 +23,7 @@ const Register = () => {
         const photo = form.photo.value;
         const email = form.email.value;
         const password = form.password.value;
-        console.log(name, photo, email, password)
+        // console.log(name, photo, email, password)
         setError('');
         setSuccess('');
 
@@ -26,12 +32,37 @@ const Register = () => {
             const user = result.user;
             console.log('create user', user) ;
             alert('User Created Successfully');
-            setSuccess('User Created Successfully')
+            setSuccess('User Created Successfully');
+            handleUpdateUserProfile(name, photo);
+            handleEmailVerification();
         })
         .catch(error =>{
             console.log(error.message);
             setError(error.message)
         })
+    }
+
+    const handleUpdateUserProfile = (name, photoURL)=>{
+      const profile = {
+        displayName : name,
+        photoURL: photoURL
+      }
+      updateUser(profile)
+      .then(()=>{
+      })
+      .catch(error =>{
+        setError(error.message)
+      })
+    }
+
+    const handleEmailVerification =()=>{
+      verifyEmail()
+      .then(()=>{
+        alert('Please Verify Your Email')
+      })
+      .catch(error =>{
+        setError(error.message)
+      })
     }
 
 
@@ -56,7 +87,14 @@ const Register = () => {
           <Form.Label>Password</Form.Label>
           <Form.Control type="password" name="password" placeholder="Password" />
         </Form.Group>
-        <Button variant="primary" type="submit">
+        <Form.Group className="mb-3" controlId="formBasicCheckbox">
+        <Form.Check
+         type="checkbox" 
+         onClick={handleAccepted}
+         label={<>Accept <Link to='/terms'>terms and Condition?</Link></>} 
+         />
+      </Form.Group>
+        <Button variant="primary" type="submit" disabled={!accept}>
           Submit
         </Button>
       </Form>

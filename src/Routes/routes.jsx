@@ -3,6 +3,7 @@ import Main from "../LayOut/Main";
 import Home from "../Pages/Home";
 import LogIn from "../Pages/LogIn";
 import Register from "../Pages/Register";
+import TermsCondition from "../Pages/TermsCondition";
 import Category from "../components/Category";
 import News from "../components/News";
 import PrivetRoute from "./PrivetRoute";
@@ -35,6 +36,10 @@ export const router = createBrowserRouter([
         {
           path: '/register',
           element: <Register></Register>
+        },
+        {
+          path: '/terms',
+          element: <TermsCondition></TermsCondition>
         }
       ]
     },
