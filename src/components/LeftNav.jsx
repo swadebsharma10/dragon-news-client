@@ -17,7 +17,7 @@ const LeftNav = () => {
 
     },[url] );
 
-    console.log(categories)
+    
 
     return ( 
         <section>
