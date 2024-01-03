@@ -1,13 +1,19 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../Provider/AuthProvider";
 
 
 const LogIn = () => {
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
     const {loginUser} = useContext(AuthContext);
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || '/';
+
+   
 
     const handleSubmit = event =>{
         event.preventDefault();
@@ -15,15 +21,20 @@ const LogIn = () => {
         const email = form.email.value;
         const password = form.password.value;
         console.log( email, password);
+        setError('');
+        setSuccess('');
+
         loginUser(email, password)
         .then(result =>{
             const user = result.user;
             console.log('login', user);
             alert('User Login Successfully');
-            navigate('/')
+            setSuccess('User Login Successfully')
+            navigate(from, {replace:true})
         })
         .catch(error =>{
-            console.log(error.message)
+            console.log(error.message);
+            setError(error.message)
         })
     }
 
@@ -48,6 +59,11 @@ const LogIn = () => {
           </Button>
         </Form>
         <p className="text-center">already Have account ? <Link to='/register'>Register</Link></p>
+
+         <div className="text-center">
+         {success && <p className="text-success">{success}</p> }
+         {error && <p className="text-danger">{error}</p> }
+         </div>
           </div>
         </section>
     );

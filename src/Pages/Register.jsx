@@ -1,11 +1,12 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../Provider/AuthProvider";
 
 
 const Register = () => {
-
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
     const {createUser} = useContext(AuthContext);
 
 
@@ -17,15 +18,19 @@ const Register = () => {
         const email = form.email.value;
         const password = form.password.value;
         console.log(name, photo, email, password)
+        setError('');
+        setSuccess('');
 
         createUser(email, password)
         .then(result =>{
             const user = result.user;
             console.log('create user', user) ;
-            alert('User Created Successfully')
+            alert('User Created Successfully');
+            setSuccess('User Created Successfully')
         })
         .catch(error =>{
-            console.log(error.message)
+            console.log(error.message);
+            setError(error.message)
         })
     }
 
@@ -56,6 +61,10 @@ const Register = () => {
         </Button>
       </Form>
       <p className="text-center">Already Have account ? <Link to='/login'>Login</Link></p>
+      <div className="text-center">
+         {success && <p className="text-success">{success}</p> }
+         {error && <p className="text-danger">{error}</p> }
+         </div>
         </div>
       </section>
     );
