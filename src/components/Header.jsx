@@ -1,12 +1,28 @@
-import Button from 'react-bootstrap/Button';
+import { useContext } from 'react';
+import { Button } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import { FaUser } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../Provider/AuthProvider';
 
 
 const Header = () => {
+
+  const {user, logOut} = useContext(AuthContext);
+
+  const handleLogOut =()=>{
+    logOut()
+    .then(()=>{
+      alert("User LogOut Successfully")
+    })
+    .catch(error =>{
+      console.log(error.message)
+    })
+  }
+
+
     return (
         <section className='mb-3'>
         <Navbar expand="lg" className="bg-primary py-2">
@@ -26,15 +42,17 @@ const Header = () => {
               <Link className='text-white' to='/about'>About</Link>
               </Nav.Link>
             </Nav>
-            <Form className="d-flex">
-              <Form.Control
-                type="search"
-                placeholder="Search"
-                className="me-2"
-                aria-label="Search"
-              />
-              <Button variant="secondary">Search</Button>
-            </Form>
+            <div className="d-flex align-items-center gap-2">
+             
+            {user && user.uid ? <img src={user.photoURL} width={30} height={30} className='rounded-circle' /> :
+            <FaUser />
+            }
+
+            {user ? <Button onClick={handleLogOut} variant="danger" size="sm">LogOut</Button>
+          :
+          <Button className='' size='sm' variant='info'><Link className='text-white' to='/login'>Login</Link></Button>
+        }
+            </div>
           </Navbar.Collapse>
         </Container>
       </Navbar>

@@ -1,13 +1,29 @@
+import { useContext } from "react";
 import { Button, ButtonGroup, ListGroup } from "react-bootstrap";
 import { FaFacebook, FaGithub, FaGoogle, FaLinkedin, FaTwitter, FaWhatsapp, FaYoutube } from "react-icons/fa";
+import { AuthContext } from "../Provider/AuthProvider";
 import BrandCarusel from "./BrandCarusel";
 
 const RightNav = () => {
+  const {googleSignIn} = useContext(AuthContext);
+
+  const handleGoogleSign =()=>{
+    googleSignIn()
+    .then(result =>{
+      const user = result.user;
+      console.log('google', user)
+    })
+    .catch(error =>{
+      console.log(error.message)
+    })
+  }
+
+
     return (
         <section>
            
            <ButtonGroup vertical  className="mb-3">
-           <Button className="mb-3" variant="outline-primary">
+           <Button onClick={handleGoogleSign} className="mb-3" variant="outline-primary">
            <FaGoogle/>  Login With Google</Button>
            <Button variant="outline-danger">
            <FaGithub />  Login With Github</Button>
