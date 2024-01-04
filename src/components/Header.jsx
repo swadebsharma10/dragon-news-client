@@ -35,12 +35,12 @@ const Header = () => {
               style={{ maxHeight: '100px' }}
               navbarScroll
             >
-              <Nav.Link>
+              <>
               <Link className='text-white' to='/'>Home</Link>
-              </Nav.Link>
-              <Nav.Link>
+              </>
+              <>
               <Link className='text-white' to='/about'>About</Link>
-              </Nav.Link>
+              </>
             </Nav>
             <div className="d-flex align-items-center gap-2">
              

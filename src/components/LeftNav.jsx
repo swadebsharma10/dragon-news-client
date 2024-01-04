@@ -6,7 +6,7 @@ const LeftNav = () => {
 
     const [categories, setCategories] = useState([]);
 
-    const url = `http://localhost:5000/news-categories`;
+    const url = `https://dragon-news24-server.vercel.app/news-categories`;
 
     useEffect(()=>{
         fetch(url)
